@@ -3,15 +3,27 @@
 #include <stdio.h>
 #include <iostream>
 #include "include/grid.h"
+#include "include/Agent.h"
 #include <time.h>
 #include <cstdlib>
 
-Grid::Grid(){
+#define AGENT_NUM 4
+
+Grid::Grid(std::vector<bwi_gridworld::Agent> ag){
 	step_count = 0;
 	found = false;
 	int event_location[2];
 	event_location[0] = -1;
 	event_location[1] = -1;
+	if(ag.size() == AGENT_NUM){
+		agents = ag;
+		//initialized agents at their starting locations (currently the four corners of the grid)
+		//TODO: Allow choice of where to start agents?
+		initAgent(ag.at(0), 0, 0);
+		initAgent(ag.at(1), width, 0);
+		initAgent(ag.at(2), width, height);
+		initAgent(ag.at(3), 0, height);
+	}
 	eventInit();
 }
 
@@ -55,15 +67,15 @@ int Grid::eventInit(){
     int random_y = std::rand() % height;
     event_location[0] = random_x;
     event_location[1] = random_y;
-    std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
+    //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
     timer = time(0);
 }
-int Grid::initAgent(int x_pos, int y_pos){ //returns the agent_id
+int Grid::initAgent(bwi_gridworld::Agent ag, int x_pos, int y_pos){ //returns the agent_id
 	std::vector<int> agent;
 	agent.push_back(x_pos);
 	agent.push_back(y_pos);
 	agent_positions.push_back(agent);
-	std::cout << "Agent initialized at position 0, 0" << std::endl;
+	std::cout << "Agent initialized at position [" << x_pos << "," << y_pos << "]."<< std::endl;
 	return agent_positions.size();
 }
 void Grid::event_found(){
@@ -73,20 +85,21 @@ void Grid::event_found(){
 	std::cout << "It took your agent(s) " << duration << " seconds to find the intruder!" << std::endl;
 	std::cout << "It took your agent(s) " << step_count << " simulation steps to find the intruder!" << std::endl;
 }
-int Grid::next(std::vector<char> moves){
-	if(moves.size() < agent_positions.size()){
-		std::cout << "Error: argument passed into next() smaller than number of initialized agents." << std::endl;
-		return -1;
-	}
-	else{
-		for(int i = 0; i < moves.size(); i++){
-			step(i, moves[i]);
-			if(agent_positions.at(i).at(0) == event_location[0] && agent_positions.at(i).at(1) == event_location[1]){
-				event_found();
-				return 1;
+//Polls the agents for their next move
+int Grid::next(){
+		for(int i = 0; i < agents.size(); i++){
+			char agent_action = agents.at(i).nextAction();
+			if(validMove(i, agent_action)){
+				step(i, agent_action);
+				if(agent_positions.at(i).at(0) == event_location[0] && agent_positions.at(i).at(1) == event_location[1]){
+					event_found();
+					return 1;
+				}	
+			}
+			else{ //Agent's move not valid
+					//TODO: add some action to handle invalid moves
 			}
 		}
-	}
 	step_count++;
 	return 0;
 }
@@ -98,21 +111,6 @@ int* Grid::getPos(int agent_id){
 	std::cout << "Agent 0 now at " << agent_positions.at(agent_id).at(0) << ", " << agent_positions.at(agent_id).at(1) << std::endl;
 	return &coordinates[0];
 }
-int main(){
-	Grid g1;
-	g1.initAgent(0,0);
-	char move = ' ';
-	std::vector<char> moves;	
-	while(move != 'q' && !g1.found){
-		std::cout << ". for a single step. q to exit. coordinal directions for moves: ";
-		std::cin >> move;
-		std::cout << std::endl;
-		if(move == 'n' || move == 's' || move == 'e' || move =='w'){
-			moves.push_back(move);
-			g1.next(moves);
-			std::cout << "Agent 0 now at " << g1.agent_positions.at(0).at(0) << ", " << g1.agent_positions.at(0).at(1) << std::endl;		
-		}
-		moves.clear();
-	}
-		
-}
+int Grid::getWidth(){return width;}
+int Grid::getHeight(){return height;}
+int Grid::getStep(){return step_count;}

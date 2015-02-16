@@ -1,7 +1,7 @@
 #ifndef bwi_gridworld_AgentFactory_h__guard
 #define bwi_gridworld_AgentFactory_h__guard
 
-#include "Action.h"
+#include "agent.h"
 
 #include <string>
 #include <map>
@@ -11,16 +11,12 @@ namespace bwi_gridworld {
 
 struct AgentFactory {
 	
-	typedef std::map<std::string, Action*> ActionMap;
+	typedef std::map<std::string, Agent*> AgentMap;
 	
-	AgentFactory(Action *act);
+	AgentFactory(Agent *ag);
 	
 	static Agent *byName(const std::string& name) throw (std::runtime_error);
 	static AgentMap &actions();
-	
-	
-	
-	
 };
 
 }
