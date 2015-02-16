@@ -7,35 +7,33 @@
 #include <time.h>
 #include <cstdlib>
 
-#define AGENT_NUM 4
-
 Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
 	found = false;
 	int event_location[2];
 	event_location[0] = -1;
 	event_location[1] = -1;
-	if(ag.size() == AGENT_NUM){
+	if(ag.size() == AGENTS){
 		agents = ag;
 		//initialized agents at their starting locations (currently the four corners of the grid)
 		//TODO: Allow choice of where to start agents?
-		initAgent(ag.at(0), 0, 0);
-		initAgent(ag.at(1), width, 0);
-		initAgent(ag.at(2), width, height);
-		initAgent(ag.at(3), 0, height);
+		initAgent(0, ag.at(0), 0, 0);
+		initAgent(1, ag.at(1), width, 0);
+		initAgent(2, ag.at(2), width, height);
+		initAgent(3, ag.at(3), 0, height);
 	}
-	else{
-		//TODO failure error message
-	}
-	eventInit();
+
+  //printf("agent_positions[%d] = %x\n", 0, agent_positions[0]);
+  Grid::eventInit();
+  //printf("finished initializing grid\n");
 }
 
 bool Grid::validMove(int agent_id, char direction){
-	std::cout << agent_positions.size() << std::endl;
-	if(agent_positions.size() > agent_id){
-    printf("test");
-		int agent_x = agent_positions.at(agent_id)->x;
-		int agent_y = agent_positions.at(agent_id)->y;
+  printf("VALIDMOVE\n");
+  printf("agent_positions[%d] = %x\n", agent_id, agent_positions[agent_id]);
+	if(agent_id < AGENTS){
+    int agent_x = agent_positions[agent_id]->x;
+    int agent_y = agent_positions[agent_id]->y;
 		if(direction == 's' && ((agent_y - 1) < 0))
 			return false;
 		else if(direction == 'e' && ((agent_x) + 1 >= width))
@@ -52,13 +50,13 @@ bool Grid::validMove(int agent_id, char direction){
 int Grid::step(int agent_id, char direction){
 	if(validMove(agent_id, direction)){
 		if(direction == 'n')
-      agent_positions.at(agent_id)->y++;
+      agent_positions[agent_id]->y++;
 		if(direction == 'e')
-      agent_positions.at(agent_id)->x++;
+      agent_positions[agent_id]->x++;
 		if(direction == 's')
-      agent_positions.at(agent_id)->y--;
+      agent_positions[agent_id]->y--;
 		if(direction == 'w')
-      agent_positions.at(agent_id)->x--;
+      agent_positions[agent_id]->x--;
 		
 	}
 	else 
@@ -68,17 +66,20 @@ int Grid::step(int agent_id, char direction){
 //starts the timer
 int Grid::eventInit(){
 	std::srand(time(0)); // use current time as seed for random generator
-    int random_x = std::rand() % width;
-    int random_y = std::rand() % height;
-    event_location[0] = random_x;
-    event_location[1] = random_y;
-    //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
-    timer = time(0);
+  int random_x = std::rand() % width;
+  int random_y = std::rand() % height;
+  return 0;
+  event_location[0] = random_x;
+  event_location[1] = random_y;
+  std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
+  timer = time(0);
 }
-int Grid::initAgent(bwi_gridworld::Agent ag, int x_pos, int y_pos){ //returns the agent_id
-  agent_positions.push_back(new Pos(x_pos, y_pos));
-	std::cout << "Agent initialized at position [" << x_pos << "," << y_pos << "]."<< std::endl;
-	return agent_positions.size();
+int Grid::initAgent(int index, bwi_gridworld::Agent ag, int x_pos, int y_pos){ //returns the agent_id
+  Pos* p = new Pos(x_pos, y_pos);
+  agent_positions[index] = p;
+  printf("Agent (id: %d) initialized at position [%d, %d]\n", index, p->x, p->y);
+  printf("agent_positions[%d] = %x\n",index, agent_positions[index]);
+	return index;
 }
 void Grid::event_found(){
 	found = true;
@@ -89,14 +90,17 @@ void Grid::event_found(){
 }
 //Polls the agents for their next move
 int Grid::next(){
-		for(int i = 0; i < agents.size(); i++){
+  printf("NEXT\n");
+  printf("agents.size() = %d\n", agents.size());
+		for(int i = 0; i < AGENTS; i++){
 			char agent_action = agents.at(i).nextAction();
+      printf("agent_action: %c\n", agent_action);
 
 			if(validMove(i, agent_action)){
 				std::cout << "Made it!" << std::endl;
 				step(i, agent_action);
 				setPos(i);
-				if(agent_positions.at(i)->x == event_location[0] && agent_positions.at(i)->y == event_location[1]){
+				if(agent_positions[i]->x == event_location[0] && agent_positions[i]->y == event_location[1]){
 					event_found();
 					return 1;
 				}	
@@ -110,8 +114,8 @@ int Grid::next(){
 }
 
 void Grid::setPos(int agent_id){
-	agents.at(agent_id).x = agent_positions.at(agent_id)->x;
-	agents.at(agent_id).y = agent_positions.at(agent_id)->y;
+	agents.at(agent_id).x = agent_positions[agent_id]->x;
+	agents.at(agent_id).y = agent_positions[agent_id]->y;
 }
 
 const int Grid::getWidth(){return width;}
