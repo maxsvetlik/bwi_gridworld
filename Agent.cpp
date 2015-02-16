@@ -5,11 +5,12 @@
 using namespace std;
 
 namespace bwi_gridworld {
-	
-	void nextAction(){
-	}
-	Agent* clone(int id){
-	}
 
-	
+  void nextAction(){
+  }
+
+  Agent* clone(int id){
+  }
+
+
 }

@@ -3,12 +3,8 @@
 using namespace std;
 
 namespace bwi_actexec {
-	
-AgentFactory::AgentFactory(Agent* ag) {
 
+  AgentFactory::AgentFactory(Agent* ag) {
 
-}
-
-
-	
+  }
 }
