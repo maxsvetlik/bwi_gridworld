@@ -2,8 +2,18 @@
 Project for the FRI class in Autonomous Robot stream
 
 Current status:
-Weird issue where a grid.h couldn't see include/Agent.h but could see Agent.h in the main directory, so a copy of it lives there until it is sorted out. The two headers should stay identical.
-Current forward declared complication error from Grid::next() function. Tried several workthroughs, nothing that worked. -Max
+Working! beta .01
+Agent class included has some dummy policy.
+#######NOTE#######
+The policy implemented by the agents will almost never find the event, so running the exe will seem as though there is an infinite loop...because there is.
+
+
+
+
+
+
+
+
 
 This project holds the codebase for the agent-gridworld simulation!
 
