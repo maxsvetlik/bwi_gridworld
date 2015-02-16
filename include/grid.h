@@ -4,12 +4,17 @@
 #include <cstddef>
 #define AGENT_NUM 4
 
+struct Pos{
+  int x,y;
+  Pos(int x, int y) : x(x), y(y){};
+};
+
 class Grid{
   private:
     int step_count;
     clock_t timer;
     int event_location[];
-    std::vector<std::vector<int> > agent_positions;
+    std::vector<Pos*> agent_positions;
     void event_found();
     void setPos(int agent_id);
     int initAgent(bwi_gridworld::Agent, int, int);

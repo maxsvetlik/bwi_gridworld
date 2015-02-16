@@ -1,5 +1,6 @@
 #include "include/grid.h"
 #include <vector>
+#include <stdio.h>
 
 int main(){
 	bwi_gridworld::Agent a0, a1, a2, a3;
