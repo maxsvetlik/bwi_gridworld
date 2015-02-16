@@ -11,8 +11,11 @@ int main(){
 	ag.push_back(a3);
 	Grid grid(ag);
 
+  printf("about to check found\n");
 	while(!grid.found){
+    printf("not found\n");
 		grid.next();
+    printf(".next finished\n");
 	}
 
 			

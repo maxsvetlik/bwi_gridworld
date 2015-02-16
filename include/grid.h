@@ -3,6 +3,8 @@
 #include "Agent.h"
 #include <cstddef>
 
+#define AGENTS 4
+
 struct Pos{
   int x,y;
   Pos(int x, int y) : x(x), y(y){};
@@ -13,11 +15,12 @@ class Grid{
     int step_count;
     clock_t timer;
     int event_location[];
-    std::vector<Pos*> agent_positions;
+    Pos* agent_positions[AGENTS];
     void event_found();
     void setPos(int agent_id);
-    int initAgent(bwi_gridworld::Agent, int, int);
+    int initAgent(int index, bwi_gridworld::Agent, int, int);
     std::vector<bwi_gridworld::Agent> agents;
+
   public:
     Grid(std::vector<bwi_gridworld::Agent> const &ag);
     const static int width = 10;
