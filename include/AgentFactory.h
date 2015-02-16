@@ -15,8 +15,8 @@ struct AgentFactory {
 	
 	AgentFactory(Action *act);
 	
-	static Action *byName(const std::string& name) throw (std::runtime_error);
-	static ActionMap &actions();
+	static Agent *byName(const std::string& name) throw (std::runtime_error);
+	static AgentMap &actions();
 	
 	
 	
