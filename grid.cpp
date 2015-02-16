@@ -10,9 +10,8 @@
 Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
 	found = false;
-	int event_location[2];
-	event_location[0] = -1;
-	event_location[1] = -1;
+	Pos* p = new Pos(-1, -1);
+	event_location = p;
 	if(ag.size() == AGENTS){
 		agents = ag;
 		//initialized agents at their starting locations (currently the four corners of the grid)
@@ -68,9 +67,11 @@ int Grid::eventInit(){
 	std::srand(time(0)); // use current time as seed for random generator
   int random_x = std::rand() % width;
   int random_y = std::rand() % height;
-  return 0;
-  event_location[0] = random_x;
-  event_location[1] = random_y;
+  //return 0;
+  Pos* p = new Pos(random_x, random_y);
+  event_location = p;
+  //event_location->x = random_x;
+  //event_location->y = random_y;
   std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
   timer = time(0);
 }
@@ -100,7 +101,7 @@ int Grid::next(){
 				std::cout << "Made it!" << std::endl;
 				step(i, agent_action);
 				setPos(i);
-				if(agent_positions[i]->x == event_location[0] && agent_positions[i]->y == event_location[1]){
+				if(agent_positions[i]->x == event_location->x && agent_positions[i]->y == event_location->y){
 					event_found();
 					return 1;
 				}	

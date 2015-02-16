@@ -15,7 +15,8 @@ class Grid{
   private:
     int step_count;
     clock_t timer;
-    int event_location[];
+    //int event_location[];
+    Pos* event_location;
     Pos* agent_positions[AGENTS];
     void event_found();
     void setPos(int agent_id);
