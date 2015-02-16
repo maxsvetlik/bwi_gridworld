@@ -9,6 +9,10 @@
 
 #define AGENT_NUM 4
 
+//int Grid::getWidth();
+//int Grid::getHeight();
+//int Grid::getStep();
+
 Grid::Grid(std::vector<bwi_gridworld::Agent> ag){
 	step_count = 0;
 	found = false;
@@ -89,7 +93,9 @@ void Grid::event_found(){
 int Grid::next(){
 		for(int i = 0; i < agents.size(); i++){
 			char agent_action = agents.at(i).nextAction();
+
 			if(validMove(i, agent_action)){
+				std::cout << "Made it!" << std::endl;
 				step(i, agent_action);
 				if(agent_positions.at(i).at(0) == event_location[0] && agent_positions.at(i).at(1) == event_location[1]){
 					event_found();
