@@ -31,6 +31,7 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 }
 
 bool Grid::validMove(int agent_id, char direction){
+	std::cout << agent_positions.size() << std::endl;
 	if(agent_positions.size() > agent_id){
 		int agent_x = agent_positions.at(agent_id).at(0);
 		int agent_y = agent_positions.at(agent_id).at(1);

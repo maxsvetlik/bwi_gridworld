@@ -2,6 +2,7 @@
 #include <time.h>
 #include "Agent.h"
 #include <cstddef>
+#define AGENT_NUM 4
 
 class Grid{
   private:
