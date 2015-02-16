@@ -24,6 +24,9 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 		initAgent(ag.at(2), width, height);
 		initAgent(ag.at(3), 0, height);
 	}
+	else{
+		//TODO failure error message
+	}
 	eventInit();
 }
 
