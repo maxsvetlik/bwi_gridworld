@@ -9,11 +9,7 @@
 
 #define AGENT_NUM 4
 
-//int Grid::getWidth();
-//int Grid::getHeight();
-//int Grid::getStep();
-
-Grid::Grid(std::vector<bwi_gridworld::Agent> ag){
+Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
 	found = false;
 	int event_location[2];
@@ -32,7 +28,7 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> ag){
 }
 
 bool Grid::validMove(int agent_id, char direction){
-	if(agent_positions.size() >= agent_id){
+	if(agent_positions.size() > agent_id){
 		int agent_x = agent_positions.at(agent_id).at(0);
 		int agent_y = agent_positions.at(agent_id).at(1);
 		if(direction == 's' && ((agent_y - 1) < 0))
@@ -97,6 +93,7 @@ int Grid::next(){
 			if(validMove(i, agent_action)){
 				std::cout << "Made it!" << std::endl;
 				step(i, agent_action);
+				setPos(i);
 				if(agent_positions.at(i).at(0) == event_location[0] && agent_positions.at(i).at(1) == event_location[1]){
 					event_found();
 					return 1;
@@ -109,7 +106,13 @@ int Grid::next(){
 	step_count++;
 	return 0;
 }
-int* Grid::getPos(int agent_id){
+
+void Grid::setPos(int agent_id){
+	agents.at(agent_id).x = agent_positions.at(agent_id).at(0);
+	agents.at(agent_id).y = agent_positions.at(agent_id).at(1);
+}
+
+const int* Grid::getPos(int agent_id){
 	int coordinates[2];
 	coordinates[0] = agent_positions.at(agent_id).at(0);
 	coordinates[1] = agent_positions.at(agent_id).at(1);
@@ -117,6 +120,6 @@ int* Grid::getPos(int agent_id){
 	std::cout << "Agent 0 now at " << agent_positions.at(agent_id).at(0) << ", " << agent_positions.at(agent_id).at(1) << std::endl;
 	return &coordinates[0];
 }
-int Grid::getWidth(){return width;}
-int Grid::getHeight(){return height;}
-int Grid::getStep(){return step_count;}
+const int Grid::getWidth(){return width;}
+const int Grid::getHeight(){return height;}
+const int Grid::getStep(){return step_count;}

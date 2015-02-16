@@ -1,4 +1,5 @@
 #include "include/Agent.h"
+
 #include "include/grid.h"
 #include <sstream>
 
@@ -7,14 +8,15 @@ using namespace std;
 namespace bwi_gridworld {
 	bool up = false;
   	char Agent::nextAction(){
-  		if(*Grid::getPos(0) == Grid::width)
+  		if(x == Grid::width)
   			return 'w';
-  		if(Grid::getPos(0)[1] == Grid::height)
+  		if(y == Grid::height)
   			return 's';
-  		if(Grid::width == 0)
+  		if(x == 0)
   			return 'e';
-  		if(Grid::height == 0)
+  		if(y == 0)
   			return 'n';
+  		return 's';
   	}
 
   //Agent* clone(int id){}

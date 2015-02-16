@@ -8,6 +8,8 @@ namespace bwi_gridworld {
 
 class Agent {
 	public:	
+	int x;
+	int y;
 	char nextAction();
 	//Agent* clone(int);
 };
