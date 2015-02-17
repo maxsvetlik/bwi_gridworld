@@ -13,15 +13,7 @@ using namespace std;
 
 namespace bwi_gridworld {
   	char Agent::nextAction(){
-  		//bug due to instantiation of objects all at once
-  		struct timeval time; 
-     	gettimeofday(&time,NULL);
-     	sleep(.01);
-	     // microsecond has 1 000 000
-	     // Assuming you did not need quite that accuracy
-	     // Also do not assume the system clock has that accuracy.
-	     std::srand((unsigned)(time.tv_sec * 1000) + (time.tv_usec / 1000));
-  		int move = std::rand() % 4;
+  	int move = std::rand() % 4;
 		//std::cout << "move: " << move << std::endl;
 		switch(move) {
   			case 1 : return 'n'; break;

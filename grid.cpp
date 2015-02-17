@@ -21,6 +21,7 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
 	if(ag.size() == AGENTS){
 		agents = ag;
+		std::srand(time(0));
 		//initialized agents at their starting locations (currently the four corners of the grid)
 		//TODO: Allow choice of where to start agents?
 		initAgent(0, ag.at(0), 0, 0);
@@ -66,7 +67,6 @@ int Grid::step(int agent_id, char direction){
 }
 //probablistically generates events and places them on the grid
 int Grid::eventInit(){
-	std::srand(step_count); //bad fix, but time wasn't working (due to time captured by instanciation of object)
 	int random = std::rand();
 	if(random % 200 == 1){
 	  int random_x = std::rand() % width;
@@ -79,7 +79,7 @@ int Grid::eventInit(){
 	  Pos* p = new Pos(random_x, random_y);
 	  event_locations.push_back(p);
 	  eventsCreated++;
-	  //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
+	  std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
 	}
 }
 //checks if an EVENT is already occupying a grid
