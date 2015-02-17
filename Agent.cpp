@@ -14,7 +14,7 @@ using namespace std;
 namespace bwi_gridworld {
   	char Agent::nextAction(){
   	int move = std::rand() % 4;
-		//std::cout << "move: " << move << std::endl;
+		// std::cout << "move: " << move << std::endl;
 		switch(move) {
   			case 1 : return 'n'; break;
   			case 2 : return 's'; break;

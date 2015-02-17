@@ -70,7 +70,7 @@ int Grid::step(int agent_id, char direction){
 //probablistically generates events and places them on the grid
 int Grid::eventInit(){
 	int random = std::rand();
-	if(random % 100 == 1){
+	if(random % 1000 <= width){
 	  int random_x = std::rand() % width;
 	  int random_y = std::rand() % height;	  
 	  while(alreadyOccupied(random_x, random_y)){
