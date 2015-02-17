@@ -19,6 +19,7 @@ Creates a 2D grit, initializes agents in the map. At some point an event is plac
 
 Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
+	eventsFound = 0;
 	eventsCreated = 0;
 	if(ag.size() == AGENTS){
 		agents = ag;
@@ -105,7 +106,7 @@ int Grid::printResults(){
 }
 void Grid::checkIfEventFound(int agent_id){
 	for(int i = 0; i < event_locations.size(); i++){
-		if(agent_positions[i]->x == event_locations.at(i)->x && agent_positions[i]->y == event_locations.at(i)->y){
+		if(agent_positions[agent_id]->x == event_locations.at(i)->x && agent_positions[agent_id]->y == event_locations.at(i)->y){
 			eventsFound++;
 			//removes the event from the event vector
 			event_locations.erase(event_locations.begin() + i, event_locations.begin() + i + 1);

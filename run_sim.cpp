@@ -9,8 +9,8 @@
 *
 */
 
-int main(){
-	std::srand(time(0));
+int main(int argc, char *argv[]){
+	std::srand(time(0)); //seeds random number generator with the current time
 	bwi_gridworld::Agent a0, a1, a2, a3;
 	std::vector <bwi_gridworld::Agent> ag;
 	ag.push_back(a0);
