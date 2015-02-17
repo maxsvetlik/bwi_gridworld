@@ -5,6 +5,7 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <iostream>
+#include <unistd.h>
 
 //Max's probabilistic agent - codename 007
 
