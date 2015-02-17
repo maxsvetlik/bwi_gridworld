@@ -21,6 +21,7 @@ class Grid{
     std::vector<Pos*> event_locations;
     Pos* agent_positions[AGENTS];
     void event_found();
+    bool alreadyOccupied(int, int);
     void checkIfEventFound(int);
     int printResults();
     void setPos(int agent_id);

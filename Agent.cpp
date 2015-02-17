@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "include/grid.h"
 #include <sstream>
-#include <time.h>
+#include <sys/time.h>
 #include <stdio.h>
 #include <iostream>
 
@@ -13,8 +13,15 @@ using namespace std;
 namespace bwi_gridworld {
   	char Agent::nextAction(){
   		//bug due to instantiation of objects all at once
-  		std::srand(time(0));
+  		struct timeval time; 
+     	gettimeofday(&time,NULL);
+     	sleep(.01);
+	     // microsecond has 1 000 000
+	     // Assuming you did not need quite that accuracy
+	     // Also do not assume the system clock has that accuracy.
+	     std::srand((unsigned)(time.tv_sec * 1000) + (time.tv_usec / 1000));
   		int move = std::rand() % 4;
+		//std::cout << "move: " << move << std::endl;
 		switch(move) {
   			case 1 : return 'n'; break;
   			case 2 : return 's'; break;

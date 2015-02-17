@@ -70,12 +70,26 @@ int Grid::eventInit(){
 	int random = std::rand();
 	if(random % 200 == 1){
 	  int random_x = std::rand() % width;
-	  int random_y = std::rand() % height;
+	  int random_y = std::rand() % height;	  
+	  while(alreadyOccupied(random_x, random_y)){
+	  	 random_x = std::rand() % width;
+	  	 random_y = std::rand() % height;
+	  }
+
 	  Pos* p = new Pos(random_x, random_y);
 	  event_locations.push_back(p);
 	  eventsCreated++;
 	  //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
 	}
+}
+//checks if an EVENT is already occupying a grid
+//helper method.
+bool Grid::alreadyOccupied(int x, int y){
+	for(int i = 0; i < event_locations.size(); i++){
+	  	if(event_locations.at(i)->x == x && event_locations.at(i)->y == y)
+	  		return true;
+	  }
+	  return false;
 }
 int Grid::initAgent(int index, bwi_gridworld::Agent ag, int x_pos, int y_pos){ //returns the agent_id
   Pos* p = new Pos(x_pos, y_pos);
