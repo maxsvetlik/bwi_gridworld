@@ -2,8 +2,8 @@
 #include <vector>
 #include <stdio.h>
 #include <iostream>
-#include "include/grid.h"
-#include "include/Agent.h"
+#include "grid/grid.h"
+#include "grid/Agent.h"
 #include <time.h>
 #include <cstdlib>
 /*
@@ -21,6 +21,7 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
 	eventsFound = 0;
 	eventsCreated = 0;
+  
 	if(ag.size() == AGENTS){
 		agents = ag;
 		std::srand(time(0));
@@ -138,6 +139,7 @@ int Grid::next(){
 	return 0;
 }
 void Grid::runExperiments(){
+ 
 	for(int i = 0; i < NUM_TESTS; i++){
 		while(next() == 0){}
 		event_locations.clear();

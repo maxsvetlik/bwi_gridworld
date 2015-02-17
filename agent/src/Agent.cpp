@@ -1,6 +1,6 @@
-#include "include/Agent.h"
+#include "grid/Agent.h"
 #include <cstdlib>
-#include "include/grid.h"
+#include "grid/grid.h"
 #include <sstream>
 #include <sys/time.h>
 #include <stdio.h>
