@@ -19,6 +19,7 @@ Creates a 2D grit, initializes agents in the map. At some point an event is plac
 
 Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
+	eventsCreated = 0;
 	if(ag.size() == AGENTS){
 		agents = ag;
 		std::srand(time(0));
@@ -68,7 +69,7 @@ int Grid::step(int agent_id, char direction){
 //probablistically generates events and places them on the grid
 int Grid::eventInit(){
 	int random = std::rand();
-	if(random % 200 == 1){
+	if(random % 100 == 1){
 	  int random_x = std::rand() % width;
 	  int random_y = std::rand() % height;	  
 	  while(alreadyOccupied(random_x, random_y)){
@@ -79,7 +80,7 @@ int Grid::eventInit(){
 	  Pos* p = new Pos(random_x, random_y);
 	  event_locations.push_back(p);
 	  eventsCreated++;
-	  std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
+	  //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
 	}
 }
 //checks if an EVENT is already occupying a grid
