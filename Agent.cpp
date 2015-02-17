@@ -3,6 +3,8 @@
 #include "include/grid.h"
 #include <sstream>
 #include <time.h>
+#include <stdio.h>
+#include <iostream>
 
 
 //Max's probabilistic agent - codename 007
@@ -14,14 +16,17 @@ using namespace std;
 
 namespace bwi_gridworld {
   	char Agent::nextAction(){
-  		std::srand(time(0)); // use current time as seed for random generator
-		int move = std::rand() % 4;
-
+  		//This is a bug. Needs better seed generation.
+  		std::srand(time(0));
+  		int random = std::rand();
+  		std::srand(random);
+  		int move = std::rand() % 4;
+		std::cout << "Got " << move << std::endl;
 		switch(move) {
-  			case 1 : return 'n';
-  			case 2 : return 's';
-  			case 3 : return 'e';
-  			case 4 : return 'w';
+  			case 1 : return 'n'; break;
+  			case 2 : return 's'; break;
+  			case 3 : return 'e'; break;
+  			case 4 : return 'w'; break;
   		}
 	}
 }

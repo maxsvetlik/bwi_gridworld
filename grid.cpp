@@ -33,6 +33,7 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 
 bool Grid::validMove(int agent_id, char direction){
   	//printf("agent_positions[%d] = %x\n", agent_id, agent_positions[agent_id]);
+  	printf("direct: %c\n", direction);
 	if(agent_id < AGENTS){
     int agent_x = agent_positions[agent_id]->x;
     int agent_y = agent_positions[agent_id]->y;
