@@ -2,8 +2,8 @@
 #include <time.h>
 #include "Agent.h"
 #include <cstddef>
-#define AGENT_NUM 4
 
+#define TIME_OUT_TIME 20
 #define AGENTS 4
 
 struct Pos{
@@ -15,7 +15,6 @@ class Grid{
   private:
     int step_count;
     clock_t timer;
-    //int event_location[];
     Pos* event_location;
     Pos* agent_positions[AGENTS];
     void event_found();
@@ -28,6 +27,7 @@ class Grid{
     const static int width = 10;
     const static int height = 10;
     bool found;
+    bool timedOut;
     bool validMove(int, char);
     int eventInit();
     const int getWidth();

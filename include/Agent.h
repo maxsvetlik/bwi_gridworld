@@ -11,7 +11,6 @@ class Agent {
 	int x;
 	int y;
 	char nextAction();
-	//Agent* clone(int);
 };
 	
 	

@@ -18,8 +18,4 @@ namespace bwi_gridworld {
   			return 'n';
   		return 's';
   	}
-
-  //Agent* clone(int id){}
-
-
 }

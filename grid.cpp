@@ -7,9 +7,22 @@
 #include <time.h>
 #include <cstdlib>
 
+/*
+TODO: Add verbose mode?
+Add in functionality to print agent's metrics & performance
+Add in automated testing
+
+GRID class
+Creates a 2D grit, initializes agents in the map. At some point an event is placed on the map and the time is recorded from when the event is placed and an agent find's it.
+
+
+*/
+
+
 Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
 	found = false;
+	timedOut = false;
 	Pos* p = new Pos(-1, -1);
 	event_location = p;
 	if(ag.size() == AGENTS){
@@ -21,15 +34,11 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 		initAgent(2, ag.at(2), width, height);
 		initAgent(3, ag.at(3), 0, height);
 	}
-
-  //printf("agent_positions[%d] = %x\n", 0, agent_positions[0]);
   Grid::eventInit();
-  //printf("finished initializing grid\n");
 }
 
 bool Grid::validMove(int agent_id, char direction){
-  printf("VALIDMOVE\n");
-  printf("agent_positions[%d] = %x\n", agent_id, agent_positions[agent_id]);
+  	//printf("agent_positions[%d] = %x\n", agent_id, agent_positions[agent_id]);
 	if(agent_id < AGENTS){
     int agent_x = agent_positions[agent_id]->x;
     int agent_y = agent_positions[agent_id]->y;
@@ -67,11 +76,8 @@ int Grid::eventInit(){
 	std::srand(time(0)); // use current time as seed for random generator
   int random_x = std::rand() % width;
   int random_y = std::rand() % height;
-  //return 0;
   Pos* p = new Pos(random_x, random_y);
   event_location = p;
-  //event_location->x = random_x;
-  //event_location->y = random_y;
   std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
   timer = time(0);
 }
@@ -79,9 +85,10 @@ int Grid::initAgent(int index, bwi_gridworld::Agent ag, int x_pos, int y_pos){ /
   Pos* p = new Pos(x_pos, y_pos);
   agent_positions[index] = p;
   printf("Agent (id: %d) initialized at position [%d, %d]\n", index, p->x, p->y);
-  printf("agent_positions[%d] = %x\n",index, agent_positions[index]);
+  //printf("agent_positions[%d] = %x\n",index, agent_positions[index]);
 	return index;
 }
+//Determines the metrics for the agent's performance
 void Grid::event_found(){
 	found = true;
 	double duration;
@@ -91,14 +98,17 @@ void Grid::event_found(){
 }
 //Polls the agents for their next move
 int Grid::next(){
-  printf("NEXT\n");
-  printf("agents.size() = %d\n", agents.size());
+	//First, check if the agents have timed out.
+	if(double duration = ((float)( time(0) - timer )) > TIME_OUT_TIME){
+		printf("The agents took too long to find the event. Searching timed out. The experiment is over.");
+		timedOut = true;
+		return 0;
+	}
 		for(int i = 0; i < AGENTS; i++){
 			char agent_action = agents.at(i).nextAction();
-      printf("agent_action: %c\n", agent_action);
+     		//printf("agent_action: %c\n", agent_action);
 
 			if(validMove(i, agent_action)){
-				std::cout << "Made it!" << std::endl;
 				step(i, agent_action);
 				setPos(i);
 				if(agent_positions[i]->x == event_location->x && agent_positions[i]->y == event_location->y){
@@ -107,18 +117,20 @@ int Grid::next(){
 				}	
 			}
 			else{ //Agent's move not valid
-					//TODO: add some action to handle invalid moves
+					printf("Agent %d tried an invalid move!\n", i);
 			}
 		}
 	step_count++;
 	return 0;
 }
-
+//Method to set the position of the current agent in the agent's variable space.
+//Note that if an Agent changes its own x,y variables, it does not change their position.
 void Grid::setPos(int agent_id){
 	agents.at(agent_id).x = agent_positions[agent_id]->x;
 	agents.at(agent_id).y = agent_positions[agent_id]->y;
 }
 
+//methods to return information to Agents
 const int Grid::getWidth(){return width;}
 const int Grid::getHeight(){return height;}
 const int Grid::getStep(){return step_count;}

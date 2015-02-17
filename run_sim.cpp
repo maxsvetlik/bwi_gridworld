@@ -2,6 +2,12 @@
 #include <vector>
 #include <stdio.h>
 
+/*
+* Driver file for the simulated GRID project.
+* Here is where all agents will be assembled into a vector and passed into the created grid object.
+*
+*/
+
 int main(){
 	bwi_gridworld::Agent a0, a1, a2, a3;
 	std::vector <bwi_gridworld::Agent> ag;
@@ -11,12 +17,9 @@ int main(){
 	ag.push_back(a3);
 	Grid grid(ag);
 
-  printf("about to check found\n");
-	while(!grid.found){
-    printf("not found\n");
+	while(!grid.found && !grid.timedOut){
 		grid.next();
-    printf(".next finished\n");
 	}
 
-			
+	return 0;
 }
