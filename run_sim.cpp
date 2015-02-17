@@ -18,8 +18,4 @@ int main(){
 	Grid grid(ag);
 	grid.runExperiments();
 	return 0;
-
 }
-
-
-
