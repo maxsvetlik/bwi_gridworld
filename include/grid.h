@@ -3,7 +3,8 @@
 #include "Agent.h"
 #include <cstddef>
 
-#define TIME_OUT_TIME 20
+#define NUM_TESTS 10
+#define MAX_STEPS 500
 #define AGENTS 4
 
 struct Pos{
@@ -14,10 +15,14 @@ struct Pos{
 class Grid{
   private:
     int step_count;
+    int eventsCreated;
+    int eventsFound;
     clock_t timer;
-    Pos* event_location;
+    std::vector<Pos*> event_locations;
     Pos* agent_positions[AGENTS];
     void event_found();
+    void checkIfEventFound(int);
+    int printResults();
     void setPos(int agent_id);
     int initAgent(int index, bwi_gridworld::Agent, int, int);
     std::vector<bwi_gridworld::Agent> agents;
@@ -26,13 +31,13 @@ class Grid{
     Grid(std::vector<bwi_gridworld::Agent> const &ag);
     const static int width = 10;
     const static int height = 10;
-    bool found;
-    bool timedOut;
+    bool running;
     bool validMove(int, char);
     int eventInit();
     const int getWidth();
     const int getHeight();
     const int getStep();
+    void runExperiments();
     int next();
     int step(int, char);
     const int* getPos(int);

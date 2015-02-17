@@ -1,21 +1,27 @@
 #include "include/Agent.h"
-
+#include <cstdlib>
 #include "include/grid.h"
 #include <sstream>
+#include <time.h>
+
+
+//Max's probabilistic agent - codename 007
+
+
+
 
 using namespace std;
 
 namespace bwi_gridworld {
-	bool up = false;
   	char Agent::nextAction(){
-  		if(x == Grid::width)
-  			return 'w';
-  		if(y == Grid::height)
-  			return 's';
-  		if(x == 0)
-  			return 'e';
-  		if(y == 0)
-  			return 'n';
-  		return 's';
-  	}
+  		std::srand(time(0)); // use current time as seed for random generator
+		int move = std::rand() % 4;
+
+		switch(move) {
+  			case 1 : return 'n';
+  			case 2 : return 's';
+  			case 3 : return 'e';
+  			case 4 : return 'w';
+  		}
+	}
 }

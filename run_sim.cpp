@@ -16,10 +16,10 @@ int main(){
 	ag.push_back(a2);
 	ag.push_back(a3);
 	Grid grid(ag);
-
-	while(!grid.found && !grid.timedOut){
-		grid.next();
-	}
-
+	grid.runExperiments();
 	return 0;
+
 }
+
+
+
