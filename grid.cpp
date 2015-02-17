@@ -128,7 +128,7 @@ int Grid::next(){
 				checkIfEventFound(i);
 			}
 			else{ //Agent's move not valid
-					//printf("Agent %d tried an invalid move!\n", i);
+				checkIfEventFound(i);
 			}
 		}
 		step_count++;
