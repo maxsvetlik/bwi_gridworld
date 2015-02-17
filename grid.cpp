@@ -19,7 +19,6 @@ Creates a 2D grit, initializes agents in the map. At some point an event is plac
 
 Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 	step_count = 0;
-	running = true;
 	if(ag.size() == AGENTS){
 		agents = ag;
 		//initialized agents at their starting locations (currently the four corners of the grid)
@@ -33,7 +32,7 @@ Grid::Grid(std::vector<bwi_gridworld::Agent> const &ag){
 
 bool Grid::validMove(int agent_id, char direction){
   	//printf("agent_positions[%d] = %x\n", agent_id, agent_positions[agent_id]);
-  	printf("direct: %c\n", direction);
+  	//printf("direct: %c\n", direction);
 	if(agent_id < AGENTS){
     int agent_x = agent_positions[agent_id]->x;
     int agent_y = agent_positions[agent_id]->y;
@@ -67,14 +66,15 @@ int Grid::step(int agent_id, char direction){
 }
 //probablistically generates events and places them on the grid
 int Grid::eventInit(){
-	std::srand(time(0)); // use current time as seed for random generator
-	if(std::rand() % 200 == 1){
+	std::srand(step_count); //bad fix, but time wasn't working (due to time captured by instanciation of object)
+	int random = std::rand();
+	if(random % 200 == 1){
 	  int random_x = std::rand() % width;
 	  int random_y = std::rand() % height;
 	  Pos* p = new Pos(random_x, random_y);
 	  event_locations.push_back(p);
 	  eventsCreated++;
-	  std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
+	  //std::cout << "Event at location: " << random_x << ", " << random_y << std::endl;
 	}
 }
 int Grid::initAgent(int index, bwi_gridworld::Agent ag, int x_pos, int y_pos){ //returns the agent_id
@@ -103,10 +103,9 @@ int Grid::next(){
 	eventInit();
 	//First, check if the round over
 	if(step_count >= MAX_STEPS){
-		running = false;
 		return 1;
 	}
-	if(running){
+	else{
 		for(int i = 0; i < AGENTS; i++){
 			char agent_action = agents.at(i).nextAction();
 			if(validMove(i, agent_action)){
@@ -125,8 +124,8 @@ int Grid::next(){
 void Grid::runExperiments(){
 	for(int i = 0; i < NUM_TESTS; i++){
 		while(next() == 0){}
+		event_locations.clear();
 		step_count = 0;
-		running = true;
 		//initialized agents at their starting locations (currently the four corners of the grid)
 		//TODO: Allow choice of where to start agents?
 		initAgent(0, agents.at(0), 0, 0);

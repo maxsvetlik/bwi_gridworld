@@ -6,22 +6,15 @@
 #include <stdio.h>
 #include <iostream>
 
-
 //Max's probabilistic agent - codename 007
-
-
-
 
 using namespace std;
 
 namespace bwi_gridworld {
   	char Agent::nextAction(){
-  		//This is a bug. Needs better seed generation.
+  		//bug due to instantiation of objects all at once
   		std::srand(time(0));
-  		int random = std::rand();
-  		std::srand(random);
   		int move = std::rand() % 4;
-		std::cout << "Got " << move << std::endl;
 		switch(move) {
   			case 1 : return 'n'; break;
   			case 2 : return 's'; break;
