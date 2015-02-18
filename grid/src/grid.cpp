@@ -195,9 +195,9 @@ void Grid::reset() {
     
   agent_positions.clear();
   agent_positions.push_back(Pos(0,0,0));
-  agent_positions.push_back(Pos(width, 0,0));
-  agent_positions.push_back(Pos(width, height,0));
-  agent_positions.push_back(Pos(0, height,0));
+  agent_positions.push_back(Pos(width-1, 0,0));
+  agent_positions.push_back(Pos(width-1, height-1,0));
+  agent_positions.push_back(Pos(0, height-1,0));
 }
 
 Grid::~Grid() {
