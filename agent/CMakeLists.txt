@@ -1,8 +1,10 @@
 project(agent)
 
-set (GRID_LOCATION /home/matish/programmi/bwi_gridworld/grid/)
+cmake_minimum_required(VERSION 2.8.1)
+cmake_policy(SET CMP0015 NEW)
 
-cmake_minimum_required(VERSION 2.6)
+set (GRID_LOCATION ../grid)
+
 
 include_directories(${GRID_LOCATION}/include include)
 
