@@ -6,11 +6,18 @@
 
 namespace bwi_gridworld {
 
+class Pos;
+  
 class Agent {
 	public:	
 	int x;
 	int y;
-	char nextAction();
+	virtual char nextAction(const Pos &currentPos) = 0;
+  virtual void eventFound(const Pos& currentPos) = 0;
+  virtual Agent *clone(int id) = 0;
+
+  virtual ~Agent(){};
+  
 };
 	
 	
