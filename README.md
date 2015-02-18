@@ -23,3 +23,24 @@ It is adventageous to minimize this time, which can be accomplished with optimal
 
 The GRID simulation will poll each agent for their move on each simulation step. The 'brains' of the agent is in the return method of nextMove().
 How the agent knows what to return and when is a matter of policy.
+
+
+## Instructions
+
+For notational purposes we will use CSID to represent your UTCS ID.
+
+Setting up is really easy, once you've cloned all you have to do is set the
+remote location to your specified repo.  Once you push, your code will be
+cloned on the server, subsequently compiled and the results will be given back
+to you.
+
+
+1. git clone CSID@104.236.234.64:/fri/bwi_gridworld
+2. cd bwi_gridworld
+3. git remote set-url origin CSID@104.236.234.64:/fri/CSID/agent.git
+4. git push origin master
+
+## Submitting
+
+Your progress is tracked, there isn't a formal final submission. We will grade
+the last submission you push before the deadline.
