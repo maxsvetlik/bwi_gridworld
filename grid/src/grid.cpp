@@ -68,7 +68,10 @@ bool Grid::validMove(int agent_id, char direction){
 	return false;
 }
 int Grid::step(int agent_id, char direction){
-	if(validMove(agent_id, direction)){
+	if(validMove(agent_id, direction) ){
+    
+    if(rand() <= (1 - agent_id * 0.2) * RAND_MAX) {
+    
 		if(direction == 'n')
       agent_positions[agent_id].y++;
 		if(direction == 'e')
@@ -77,7 +80,7 @@ int Grid::step(int agent_id, char direction){
       agent_positions[agent_id].y--;
 		if(direction == 'w')
       agent_positions[agent_id].x--;
-		
+    }
 	}
 	else 
 		std::cout << "Invalid movement! " << std::endl;
@@ -183,6 +186,7 @@ void Grid::runExperiments() {
     
     //std::cout << "The experiments are over. Your agents found " << eventsFound << " events, out of " << eventsCreated << "." << std::endl;
     std::cout << "Your agents found " << (sampleMean * 100) << "% +- " << (100 * confidence) << " of the threats" << std::endl;
+    
 }
 
 void Grid::reset() {
